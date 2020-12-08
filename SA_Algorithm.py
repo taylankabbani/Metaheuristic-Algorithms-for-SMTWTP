@@ -70,7 +70,7 @@ class SA():
         T_0 = self.initial_temp
         maxepo = self.epoch
         cooling_fun = lambda x: x * self.cooling_rate
-        T_f = 0.001
+        T_f = 0.1
 
         best_solution = []
         best_objvalue = float('inf')
@@ -123,14 +123,5 @@ class SA():
 
 
         
-
-
-
-
-
-
-
-
-
-instances_10 = SA(Path="Data_instances/Instance_10.xlsx", initial_temp = 1000, epoch = 3, cooling_rate = 0.99)
+instances_10 = SA(Path="Data_instances/Instance_10.xlsx", initial_temp = 100, epoch = 1, cooling_rate = 0.99)
 instances_10.SimuAnn()
