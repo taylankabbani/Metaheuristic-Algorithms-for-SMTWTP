@@ -50,12 +50,19 @@ class SA():
         '''Takes a list (solution)
         returns a new neighbor solution with randomly swapped elements
         '''
+        li = li.copy()
         pos1 = rd.randint(0, len(li) - 1)  # picking two random jobs
         pos2 = rd.randint(0, len(li) - 1)
         if pos1 != pos2:
             li[pos1], li[pos2] = li[pos2], li[pos1]
-        else:
-            self.SwapMove(li)
+        while pos1 == pos2:
+            print("in loop")
+            pos1 = rd.randint(0, len(li) - 1)  # picking two random jobs
+            pos2 = rd.randint(0, len(li) - 1)  
+            if pos1 != pos2:
+                print("out loop")
+                li[pos1], li[pos2] = li[pos2], li[pos1]
+                break
         if show == True:
             print("{} and {} are swapped, the current solution sequance is: {}".format(li[pos1], li[pos2], li))
         return li
@@ -123,5 +130,29 @@ class SA():
 
 
         
-instances_10 = SA(Path="Data_instances/Instance_10.xlsx", initial_temp = 100, epoch = 1, cooling_rate = 0.99)
+instances_10 = SA(Path="Data_instances/Instance_10.xlsx", initial_temp = 1000, epoch = 1, cooling_rate = 0.85)
 instances_10.SimuAnn()
+
+def SwapMove(li, show = False):
+    '''Takes a list (solution)
+     returns a new neighbor solution with randomly swapped elements
+    '''
+    li = li.copy()
+    pos1 = rd.randint(0, len(li) - 1)  # picking two random jobs
+    pos2 = rd.randint(0, len(li) - 1)
+    if pos1 != pos2:
+        li[pos1], li[pos2] = li[pos2], li[pos1]      
+    while pos1 == pos2:
+        print("in loop")
+        pos1 = rd.randint(0, len(li) - 1)  # picking two random jobs
+        pos2 = rd.randint(0, len(li) - 1)  
+        if pos1 != pos2:
+            print("out loop")
+            li[pos1], li[pos2] = li[pos2], li[pos1]
+            break
+    if show == True:
+        print("{} and {} are swapped, the current solution sequance is: {}".format(li[pos1], li[pos2], li))
+    print(li)
+
+s = [1,2,3,4]
+SwapMove(s)
