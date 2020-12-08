@@ -55,12 +55,11 @@ class SA():
         pos2 = rd.randint(0, len(li) - 1)
         if pos1 != pos2:
             li[pos1], li[pos2] = li[pos2], li[pos1]
+
         while pos1 == pos2:
-            print("in loop")
             pos1 = rd.randint(0, len(li) - 1)  # picking two random jobs
             pos2 = rd.randint(0, len(li) - 1)  
             if pos1 != pos2:
-                print("out loop")
                 li[pos1], li[pos2] = li[pos2], li[pos1]
                 break
         if show == True:
@@ -77,7 +76,7 @@ class SA():
         T_0 = self.initial_temp
         maxepo = self.epoch
         cooling_fun = lambda x: x * self.cooling_rate
-        T_f = 0.1
+        T_f = 0.001
 
         best_solution = []
         best_objvalue = float('inf')
@@ -86,8 +85,8 @@ class SA():
 
         T = T_0  # Current temp
         current_iter = 1
-        print("Number of jobs to be scheduled: {}".format(len(current_solution)))
-        print("Initial Solution: {}    Initial Objfun value: {}\n\n".format(current_solution, current_objvalue))
+        print("\n\nNumber of jobs to be scheduled: {}".format(len(current_solution)))
+        print("\nInitial Solution: {}    Initial Objfun value: {}\n\n".format(current_solution, current_objvalue))
 
         while T >= T_f :
             epoch = int(0)
@@ -130,29 +129,5 @@ class SA():
 
 
         
-instances_10 = SA(Path="Data_instances/Instance_10.xlsx", initial_temp = 1000, epoch = 1, cooling_rate = 0.85)
+instances_10 = SA(Path="Data_instances/Instance_20.xlsx", initial_temp = 1000, epoch = 3, cooling_rate = 0.99)
 instances_10.SimuAnn()
-
-def SwapMove(li, show = False):
-    '''Takes a list (solution)
-     returns a new neighbor solution with randomly swapped elements
-    '''
-    li = li.copy()
-    pos1 = rd.randint(0, len(li) - 1)  # picking two random jobs
-    pos2 = rd.randint(0, len(li) - 1)
-    if pos1 != pos2:
-        li[pos1], li[pos2] = li[pos2], li[pos1]      
-    while pos1 == pos2:
-        print("in loop")
-        pos1 = rd.randint(0, len(li) - 1)  # picking two random jobs
-        pos2 = rd.randint(0, len(li) - 1)  
-        if pos1 != pos2:
-            print("out loop")
-            li[pos1], li[pos2] = li[pos2], li[pos1]
-            break
-    if show == True:
-        print("{} and {} are swapped, the current solution sequance is: {}".format(li[pos1], li[pos2], li))
-    print(li)
-
-s = [1,2,3,4]
-SwapMove(s)
