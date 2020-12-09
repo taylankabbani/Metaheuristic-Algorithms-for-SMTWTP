@@ -9,6 +9,7 @@ class SA():
         self.initial_temp = initial_temp
         self.epoch = epoch
         self.cooling_rate = cooling_rate
+        self.Best_solution, self.Best_objvalue = self.SimuAnn()
 
 
     def input_data(self):
@@ -124,10 +125,14 @@ class SA():
             T = cooling_fun(T)
             current_iter += 1
         print('#'*30, '\nNumber of iteration performed: {}\nFinal Temperature: {}\nBest Objvalue: {}\nBest Solution: {}'.format(current_iter, T, best_objvalue, best_solution))
+        return best_solution, best_objvalue
                     
 
 
+# Example:
+## 5 runs for each instance:
+# results = []
+# for i in range(5):
+#     instances_10 = SA(Path="Data_instances/Instance_10.xlsx", initial_temp = 1000, epoch = 3, cooling_rate = 0.99)
+#     results.append(instances_10.Best_objvalue)
 
-        
-instances_10 = SA(Path="Data_instances/Instance_20.xlsx", initial_temp = 1000, epoch = 3, cooling_rate = 0.99)
-instances_10.SimuAnn()
