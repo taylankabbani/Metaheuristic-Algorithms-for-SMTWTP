@@ -12,5 +12,6 @@ For a given processing order of the jobs, the (earliest) completion time
 of job *i* ∈ (*i* = 1, ..., *n*) can be computed. The objective is to
 find a processing order of the jobs that minimizes the total weighted
 tardiness:
-*m**i**n*∑<sub>*i*</sub>*w*<sub>*i*</sub> × *T*<sub>*i*</sub>.  
-Data for three example problem instances are provided here
+*m**i**n*∑<sub>*i*</sub>*w*<sub>*i*</sub> × *T*<sub>*i*</sub>.
+
+Data for three example problem instances are provided [here](https://github.com/taylankabbani/The-single-machine-total-weighted-tardiness-problem/tree/master/Data_instances)
