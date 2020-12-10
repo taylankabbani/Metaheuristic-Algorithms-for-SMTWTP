@@ -43,4 +43,11 @@ temperature = 1000, geometric cooling schedule with a cooling rate of 0.99, epoc
 criteria as the temperature achieves a very small value (e.g., 0.001).
 SA algorithm is a stochastic algorithm; therefore, in order to evaluate its performance, the
 along with the best and worse performance is being reported for each problem instance.
-![](Simulated_Annealing algorithm/Out.xlsx/img_1000.png)
+|  | Temperature = 1000 |  |  | Temperature = 100000 |  |  |
+|-|:-:|-|-|:-:|-|-|
+| n_jobs | Worst <br>Solution | Best <br>Solution | Average <br>Performance | Worst <br>Solution | Best <br>Solution | Average <br>Performance |
+| 10 | 13.24 | 13.24 | 13.24 | 13.24 | 13.24 | 13.24 |
+| 20 | 19.19 | 18.99 | 19.1 | 19.28 | 19.01 | 19.19 |
+| 30 | 150.9 | 150.3 | 150.54 | 150.9 | 150.5 | 150.7 |
+
+![](https://github.com/taylankabbani/The-single-machine-total-weighted-tardiness-problem/blob/master/Simulated_Annealing%20algorithm/Out.xlsx/img_1000.png)
