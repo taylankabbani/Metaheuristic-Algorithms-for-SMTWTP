@@ -38,3 +38,9 @@ an improving solution.
 
 
 ## [Simulated Annealing (SA) algorithm](https://github.com/taylankabbani/The-single-machine-total-weighted-tardiness-problem/blob/master/SA_Algorithm.py)
+The swap move is used to develop a Simulated Annealing (SA) algorithm with the following
+temperature = 1000, geometric cooling schedule with a cooling rate of 0.99, epoch len
+criteria as the temperature achieves a very small value (e.g., 0.001).
+SA algorithm is a stochastic algorithm; therefore, in order to evaluate its performance, the
+along with the best and worse performance is being reported for each problem instance.
+![](Simulated_Annealing algorithm/Out.xlsx/img_1000.png)
