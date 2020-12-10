@@ -9,6 +9,9 @@ class SA():
         self.initial_temp = initial_temp
         self.epoch = epoch
         self.cooling_rate = cooling_rate
+        self.best_li = []
+        self.current_li = []
+        self.itr_li = []
         self.Best_solution, self.Best_objvalue = self.SimuAnn()
 
 
@@ -90,6 +93,9 @@ class SA():
         print("\nInitial Solution: {}    Initial Objfun value: {}\n\n".format(current_solution, current_objvalue))
 
         while T >= T_f :
+            self.itr_li.append(current_iter)
+            self.current_li.append(current_objvalue)
+            self.best_li.append(best_objvalue)
             epoch = int(0)
             while epoch < maxepo:
 
@@ -126,13 +132,7 @@ class SA():
             current_iter += 1
         print('#'*30, '\nNumber of iteration performed: {}\nFinal Temperature: {}\nBest Objvalue: {}\nBest Solution: {}'.format(current_iter, T, best_objvalue, best_solution))
         return best_solution, best_objvalue
-                    
-
-
-# Example:
-## 5 runs for each instance:
-# results = []
-# for i in range(5):
-#     instances_10 = SA(Path="Data_instances/Instance_10.xlsx", initial_temp = 1000, epoch = 3, cooling_rate = 0.99)
-#     results.append(instances_10.Best_objvalue)
-
+    
+    def Save_file(self, file_name):
+        df = pd.DataFrame(list(zip(self.itr_li, self.current_li, self.best_li)), columns = ['itr', 'current', 'best'])
+        df.to_excel(file_name)
