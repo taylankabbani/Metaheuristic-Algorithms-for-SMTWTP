@@ -45,11 +45,21 @@ class FirstDescent():
             print("\n","#"*8, "The Objective function value for {} solution schedule is: {}".format(solution ,objfun_value),"#"*8)
         return objfun_value
 
-    def SwapMove(self, li, pos1, pos2, show = False):
-        '''Takes a list (solution), position1 and position2
-        return a new neighbor solution with swapped elements
+    def SwapMove(self, li, show = False):
+        '''Takes a list (solution)
+        returns a new neighbor solution with randomly swapped elements
         '''
-        li[pos1], li[pos2] = li[pos2], li[pos1]
+        li = li.copy()
+        pos1 = rd.randint(0, len(li) - 1)  # picking two random jobs
+        pos2 = rd.randint(0, len(li) - 1)
+        if pos1 != pos2:
+            li[pos1], li[pos2] = li[pos2], li[pos1]
+        while pos1 == pos2:
+            pos1 = rd.randint(0, len(li) - 1)  # picking two random jobs
+            pos2 = rd.randint(0, len(li) - 1)
+            if pos1 != pos2:
+                li[pos1], li[pos2] = li[pos2], li[pos1]
+                break
         if show == True:
             print("{} and {} are swapped, the current solution sequance is: {}".format(li[pos1], li[pos2], li))
         return li
@@ -58,27 +68,26 @@ class FirstDescent():
         '''The implementation of a swap move (neighborhood operator) to improve the initial solution
         first improvement (first descent) strategy in applying the move.
         '''
-        initial_solution = self.Initial_solution
-        improvment_solution = []
+        improvment_solution = self.Initial_solution
         improvment_objvalue = self.Initial_objvalue
-        current_solution = initial_solution
-        Terminate = 0         # Iterations without improvment solution found
-        print("Initial solution: {}\n Objfun Value: {}".format(initial_solution, improvment_objvalue))
+        Terminate = 0  # Iterations without improvment solution found
+        print("Initial solution: {}\n Objfun Value: {}".format(improvment_solution, improvment_objvalue))
         while Terminate < self.iteration_num :
-            pos1 = rd.randint(0, len(initial_solution)-1)  # picking two random jobs
-            pos2 = rd.randint(0, len(initial_solution)-1)
-            if pos1 != pos2:
-                current_solution = self.SwapMove(current_solution, pos1, pos2)
-                current_objvalue = self.Objfun(current_solution)
-                if current_objvalue < improvment_objvalue:
-                    improvment_objvalue = current_objvalue
-                    print('#'*10,"Improvment solution found: {}\n Objfun value: {}".format(current_solution, current_objvalue), sep='\n')
-                    improvment_solution = current_solution
-                else:
-                    Terminate += 1
+            candidate_solution = self.SwapMove(improvment_solution)
+            candidate_objvalue = self.Objfun(candidate_solution)
+            if candidate_objvalue < improvment_objvalue:
+                print('\n\n###', 'Improvment objvalue: {}, candidate objvalue: {} => Accepted'.format(
+                    improvment_objvalue, candidate_objvalue))
+                improvment_solution = candidate_solution
+                improvment_objvalue = candidate_objvalue
+                Terminate = 0
+            else:
+                print('#itr{}# Improvment objvalue: {}, candidate objvalue: {} => Not Accepted'.format(
+                    Terminate, improvment_objvalue, candidate_objvalue))
+                Terminate += 1
         print('*'*30,"Best Solution found: {}\n The value of the objective function: {}".format(improvment_solution,improvment_objvalue),'*'*30,sep ='\n\n')
         return improvment_solution, improvment_objvalue
 
-instances_10 = FirstDescent(Path="Data_instances/Instance_10.xlsx", seed_num=2012, iteration_num=100)
+# instances_10 = FirstDescent(Path="Data_instances/Instance_10.xlsx", seed_num=2012, iteration_num=100)
 # instances_20 = FirstDescent(Path="Data_instances/Instance_20.xlsx", seed_num=2012, iteration_num=100)
-# instances_30 = FirstDescent(Path="Data_instances/Instance_30.xlsx", seed_num=2012, iteration_num=100)
+instances_30 = FirstDescent(Path="Data_instances/Instance_30.xlsx", seed_num=2012, iteration_num=100)
