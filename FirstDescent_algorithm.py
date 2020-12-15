@@ -88,6 +88,6 @@ class FirstDescent():
         print('*'*30,"Best Solution found: {}\n The value of the objective function: {}".format(improvment_solution,improvment_objvalue),'*'*30,sep ='\n\n')
         return improvment_solution, improvment_objvalue
 
-# instances_10 = FirstDescent(Path="Data_instances/Instance_10.xlsx", seed_num=2012, iteration_num=100)
+instances_10 = FirstDescent(Path="Data_instances/Instance_10.xlsx", seed_num=2012, iteration_num=100)
 # instances_20 = FirstDescent(Path="Data_instances/Instance_20.xlsx", seed_num=2012, iteration_num=100)
-instances_30 = FirstDescent(Path="Data_instances/Instance_30.xlsx", seed_num=2012, iteration_num=100)
+# instances_30 = FirstDescent(Path="Data_instances/Instance_30.xlsx", seed_num=2012, iteration_num=100)
