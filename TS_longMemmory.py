@@ -4,10 +4,11 @@ from itertools import combinations
 import math
 
 class TS():
-    def __init__(self, Path, seed, tabu_tenure):
+    def __init__(self, Path, seed, tabu_tenure,Penalization_weight):
         self.Path = Path
         self.seed = seed
         self.tabu_tenure = tabu_tenure
+        self.Penalization_weight = Penalization_weight
         self.instance_dict = self.input_data()
         self.Initial_solution = self.get_InitialSolution()
         self.tabu_str, self.Best_solution, self.Best_objvalue = self.TSearch()
@@ -22,11 +23,12 @@ class TS():
 
     def get_tabuestructure(self):
         '''Takes a dict (input data)
-        Returns a dict of tabu attributes(pair of jobs that are swapped) as keys and [tabu_time, MoveValue]
+        Returns a dict of tabu attributes(pair of jobs that are swapped) as keys and [tabu_time, MoveValue,
+        frequency count, penalized MoveValue]
         '''
         dict = {}
         for swap in combinations(self.instance_dict.keys(), 2):
-            dict[swap] = {'tabu_time': 0, 'MoveValue': 0}
+            dict[swap] = {'tabu_time': 0, 'MoveValue': 0, 'freq': 0, 'Penalized_MV': 0}
         return dict
 
     def get_InitialSolution(self, show=False):
@@ -71,7 +73,8 @@ class TS():
         return solution
 
     def TSearch(self):
-        '''The implementation Tabu search algorithm with short-term memory and pair_swap as Tabu attribute.
+        '''The implementation Tabu search algorithm with long-term memory and pair_swap as Tabu attribute with
+        diversification.
         '''
         # Parameters:
         tenure =self.tabu_tenure
@@ -85,6 +88,7 @@ class TS():
             tenure, current_solution, current_objvalue), "#"*30, sep='\n\n')
         iter = 1
         Terminate = 0
+        # for i in range(50):
         while Terminate < 100:
             print('\n\n### iter {}###  Current_Objvalue: {}, Best_Objvalue: {}'.format(iter, current_objvalue,
                                                                                     best_objvalue))
@@ -93,13 +97,17 @@ class TS():
                 candidate_solution = self.SwapMove(current_solution, move[0], move[1])
                 candidate_objvalue = self.Objfun(candidate_solution)
                 tabu_structure[move]['MoveValue'] = candidate_objvalue
+                # Penalized objValue by simply adding freq to Objvalue (minimization):
+                tabu_structure[move]['Penalized_MV'] = candidate_objvalue + (tabu_structure[move]['freq'] *
+                                                                             self.Penalization_weight)
 
             # Admissible move
             while True:
-                # select the move with the lowest ObjValue in the neighborhood (minimization)
-                best_move = min(tabu_structure, key =lambda x: tabu_structure[x]['MoveValue'])
+                # select the move with the lowest Penalized ObjValue in the neighborhood (minimization)
+                best_move = min(tabu_structure, key =lambda x: tabu_structure[x]['Penalized_MV'])
                 MoveValue = tabu_structure[best_move]["MoveValue"]
                 tabu_time = tabu_structure[best_move]["tabu_time"]
+                # Penalized_MV = tabu_structure[best_move]["Penalized_MV"]
                 # Not Tabu
                 if tabu_time < iter:
                     # make the move
@@ -117,8 +125,9 @@ class TS():
                               "Admissible".format(Terminate,best_move,
                                                                                                            current_objvalue))
                         Terminate += 1
-                    # update tabu_time for the move
+                    # update tabu_time for the move and freq count
                     tabu_structure[best_move]['tabu_time'] = iter + tenure
+                    tabu_structure[best_move]['freq'] += 1
                     iter += 1
                     break
                 # If tabu
@@ -132,11 +141,12 @@ class TS():
                         best_objvalue = current_objvalue
                         print("   best_move: {}, Objvalue: {} => Aspiration => Admissible".format(best_move,
                                                                                                       current_objvalue))
+                        tabu_structure[best_move]['freq'] += 1
                         Terminate = 0
                         iter += 1
                         break
                     else:
-                        tabu_structure[best_move]["MoveValue"] = float('inf')
+                        tabu_structure[best_move]['Penalized_MV'] = float('inf')
                         print("   best_move: {}, Objvalue: {} => Tabu => Inadmissible".format(best_move,
                                                                                               current_objvalue))
                         continue
@@ -144,5 +154,5 @@ class TS():
         return tabu_structure, best_solution, best_objvalue
 
 
-test = TS(Path="Data_instances/Instance_10.xlsx", seed = 2012, tabu_tenure=3)
+test = TS(Path="Data_instances/Instance_30.xlsx", seed = 2012,tabu_tenure=6,  Penalization_weight=0.8)
 
