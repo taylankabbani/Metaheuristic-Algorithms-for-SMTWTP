@@ -51,3 +51,11 @@ along with the best and worse performance is being reported for each problem ins
 | 30 | 150.9 | 150.3 | 150.54 | 150.9 | 150.5 | 150.7 |
 
 ![](https://github.com/taylankabbani/The-single-machine-total-weighted-tardiness-problem/blob/master/Simulated_Annealing%20algorithm/Out.xlsx/img_1000.png)
+
+## [Tabu Search]
+|  | Tabu Tenure = 3, <br>Penalization weight = 0.6 |  | Tabu Tenure = 6<br>Penalization weight = 0.8 |  |
+|-|:-:|-|:-:|-|
+| n_jobs | Final Solution | ObjValue | Final Solution | ObjValue |
+| 10 | [3, 2, 1, 4, 8, 10, 5, 9, 7, 6] | 13.24 | [3, 2, 1, 4, 8, 10, 5, 9, 7, 6] | 13.24 |
+| 20 | [11, 3, 2, 1, 14, 18, 5, 9, 4,<br> 10, 20, 8, 13, 19, 7, 12, 17<br>, 15, 6, 16] | 19.09 | [3, 11, 2, 14, 1, 5, 9, 18, 4, <br>10, 20, 8, 13, 19, 7, 12, 17,<br> 6, 15, 16] | 19 |
+| 30 | [29, 28, 8, 30, 16, 20, 7, 11, <br>26, 27, 18, 2, 24, 14, 5, 9,<br> 10, 21, 19, 1, 6, 13, 22, 4,<br> 17, 15, 12, 25, 23, 3] | 150.3 | [20, 8, 16, 30, 7, 29, 28, 11,<br> 26, 27, 18, 2, 21, 24, 14, 5,<br> 9, 10, 19, 1, 6, 13, 4, 22, 17,<br> 12, 15, 25, 23, 3] | 150.5 |
