@@ -52,7 +52,17 @@ along with the best and worse performance is being reported for each problem ins
 
 ![](https://github.com/taylankabbani/The-single-machine-total-weighted-tardiness-problem/blob/master/Simulated_Annealing%20algorithm/Out.xlsx/img_1000.png)
 
-## [Tabu Search]
+## [Tabu Search](https://github.com/taylankabbani/The-single-machine-total-weighted-tardiness-problem/blob/master/TS_longMemmory.py)
+**Long-term memory TS** is being designed with diversification
+technique, where the frequency of moves is recorded to be used as
+penalty when calculating the move value (Value = Penalized\_weight \*
+frequency). The Swap move between two jobs is being considered as the
+tabu attribute. An aspiration criterion set to when the objective
+function value is better than the best known one. The termination
+condition is set to 100 consecutive iterations with no best (the
+incumbent) solution found.
+The algorithm is being tested with two different tabu tenure, 3 and 6,
+with Penalization weight set to 0.6, 0.8 respectively. (Table Above)
 |  | Tabu Tenure = 3, <br>Penalization weight = 0.6 |  | Tabu Tenure = 6<br>Penalization weight = 0.8 |  |
 |-|:-:|-|:-:|-|
 | n_jobs | Final Solution | ObjValue | Final Solution | ObjValue |
