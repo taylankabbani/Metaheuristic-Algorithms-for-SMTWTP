@@ -10,6 +10,7 @@ class TS():
         self.tabu_tenure = tabu_tenure
         self.instance_dict = self.input_data()
         self.Initial_solution = self.get_InitialSolution()
+        self.tabu_str, self.Best_solution, self.Best_objvalue = self.TSearch()
 
 
     def input_data(self):
@@ -21,11 +22,12 @@ class TS():
 
     def get_tabuestructure(self):
         '''Takes a dict (input data)
-        Returns a dict of tabu attributes(pair of jobs that are swapped) as keys and [tabu_time, MoveValue]
+        Returns a dict of tabu attributes(pair of jobs that are swapped) as keys and [tabu_time, MoveValue,
+        frequency count, penalized MoveValue]
         '''
         dict = {}
         for swap in combinations(self.instance_dict.keys(), 2):
-            dict[swap] = {'tabu_time': 0, 'MoveValue': 0}
+            dict[swap] = {'tabu_time': 0, 'MoveValue': 0, 'freq': 0, 'Penalized_MV': 0}
         return dict
 
     def get_InitialSolution(self, show=False):
@@ -92,53 +94,60 @@ class TS():
                 candidate_solution = self.SwapMove(current_solution, move[0], move[1])
                 candidate_objvalue = self.Objfun(candidate_solution)
                 tabu_structure[move]['MoveValue'] = candidate_objvalue
+                # Penalized objValue by simply adding freq to Objvalue (minimization):
+                tabu_structure[move]['Penalized_MV'] = candidate_objvalue + tabu_structure[move]['freq']
 
-            # Admissible move
+                # Admissible move
             while True:
                 # select the move with the lowest ObjValue in the neighborhood (minimization)
                 best_move = min(tabu_structure, key =lambda x: tabu_structure[x]['MoveValue'])
                 MoveValue = tabu_structure[best_move]["MoveValue"]
-                tabu_time = tabu_structure[best_move]['tabu_time']
-                # Aspiration criteria and not tabu
-                if tabu_time < iter or MoveValue < best_objvalue:
+                tabu_time = tabu_structure[best_move]["tabu_time"]
+                # Not Tabu
+                if tabu_time < iter:
                     # make the move
                     current_solution = self.SwapMove(current_solution, best_move[0], best_move[1])
                     current_objvalue = self.Objfun(current_solution)
-                    if current_objvalue < best_objvalue:
+                    # Best Improving move
+                    if MoveValue < best_objvalue:
                         best_solution = current_solution
                         best_objvalue = current_objvalue
-                        print("   best_move: {}, Objvalue: {} => Most imporving => Admissible".format(best_move,
+                        print("   best_move: {}, Objvalue: {} => Best Improving => Admissible".format(best_move,
                                                                                                       current_objvalue))
+                        Terminate = 0
                     else:
-                        print("   best_move: {}, Objvalue: {} => Least non-improving => Admissible".format(best_move,
-                                                                                                      current_objvalue))
+                        print("   ##Termination: {}## best_move: {}, Objvalue: {} => Least non-improving => "
+                              "Admissible".format(Terminate,best_move,
+                                                                                                           current_objvalue))
                         Terminate += 1
-                    # update tabu_time for the move
-                    tabu_structure[best_move]['tabu_time'] += tenure
+                    # update tabu_time for the move and freq count
+                    tabu_structure[best_move]['tabu_time'] = iter + tenure
+                    tabu_structure[best_move]['freq'] += 1
                     iter += 1
                     break
+                # If tabu
                 else:
-                    tabu_structure[best_move]["MoveValue"] = float('inf')
-                    print("   best_move: {}, Objvalue: {} => Tabu => Inadmissible".format(best_move, current_objvalue))
-                    continue
-        print('#'*50)
-        print(best_solution,best_objvalue)
+                    # Aspiration
+                    if MoveValue < best_objvalue:
+                        # make the move
+                        current_solution = self.SwapMove(current_solution, best_move[0], best_move[1])
+                        current_objvalue = self.Objfun(current_solution)
+                        best_solution = current_solution
+                        best_objvalue = current_objvalue
+                        print("   best_move: {}, Objvalue: {} => Aspiration => Admissible".format(best_move,
+                                                                                                      current_objvalue))
+                        tabu_structure[best_move]['freq'] += 1
+                        Terminate = 0
+                        iter += 1
+                        break
+                    else:
+                        tabu_structure[best_move]["MoveValue"] = float('inf')
+                        print("   best_move: {}, Objvalue: {} => Tabu => Inadmissible".format(best_move,
+                                                                                              current_objvalue))
+                        continue
+        print('#'*50 , "Performed iterations: {}".format(iter), "Best found Solution: {} , Objvalue: {}".format(best_solution,best_objvalue), sep="\n")
+        return tabu_structure, best_solution, best_objvalue
 
 
+test = TS(Path="Data_instances/Instance_10.xlsx", seed = 2012, tabu_tenure=3)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-test = TS(Path="Data_instances/Instance_30.xlsx",seed = 2019, tabu_tenure=3)
-test.TSearch()
