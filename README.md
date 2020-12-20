@@ -37,7 +37,7 @@ an improving solution.
 | 30     | [13, 2, 25, 24, 21, 22, 23, 6, 28, 27,  3, 5, 8, 18, 15, 14, 9, 30, 29, 26, 10,  20, 17, 1, 19, 11, 7, 12, 16, 4] | 479.4        | [28, 11, 26, 8, 16, 20, 29, 7, 30, 27, 2, 21, 18, 24, 14, 22, 5, 10, 9, 1, 19, 6, 13, 4, 17, 15, 12, 25, 23, 3] | 153.79        |
 
 
-## [Simulated Annealing (SA) algorithm](https://github.com/taylankabbani/The-single-machine-total-weighted-tardiness-problem/blob/master/Simulated_Annealing%20algorithm/SA_Algorithm.py)
+## [Simulated Annealing (SA) Algorithm](https://github.com/taylankabbani/The-single-machine-total-weighted-tardiness-problem/blob/master/Simulated_Annealing%20algorithm/SA_Algorithm.py)
 The swap move is used to develop a Simulated Annealing (SA) algorithm with the following
 temperature = 1000, geometric cooling schedule with a cooling rate of 0.99, epoch len
 criteria as the temperature achieves a very small value (e.g., 0.001).
@@ -52,7 +52,7 @@ along with the best and worse performance is being reported for each problem ins
 
 ![](https://github.com/taylankabbani/The-single-machine-total-weighted-tardiness-problem/blob/master/Simulated_Annealing%20algorithm/Out.xlsx/img_1000.png)
 
-## [Tabu Search](https://github.com/taylankabbani/The-single-machine-total-weighted-tardiness-problem/blob/master/TS_longMemmory.py)
+## [Tabu Search (TS) Algorithm](https://github.com/taylankabbani/The-single-machine-total-weighted-tardiness-problem/blob/master/TS_longMemmory.py)
 **Long-term memory TS** is being designed with diversification
 technique, where the frequency of moves is recorded to be used as
 penalty when calculating the move value (Value = Penalized\_weight \*
