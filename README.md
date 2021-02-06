@@ -4,7 +4,7 @@ well-known NP-hard scheduling problem. There are n jobs to be scheduled
 on a single machine that can handle only one job at a time. Each of n
 jobs (numbered 1, . . . , n) is to be processed without interruption.
 Job *i* ∈ *n* becomes available for processing at time zero, requires an
-integer processing time *T*<sub>*i*</sub>, and has a positive weight
+integer processing time *p*<sub>*i*</sub>, and has a positive weight
 *w*<sub>*i*</sub> and a due date *d*<sub>*i*</sub>.  
 For a given processing order of the jobs, the (earliest) completion time
 *C*<sub>*i*</sub> and the tardiness
